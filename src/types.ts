@@ -1,7 +1,7 @@
 export interface DatabaseAdapter {
-  readonly getTables: () => string[];
-  readonly getTableInfo: (table: string) => TableInfo | null;
-  readonly getSchema: () => string[];
+  readonly getTables: () => Promise<string[]>;
+  readonly getTableInfo: (table: string) => Promise<TableInfo | null>;
+  readonly getSchema: () => Promise<string[]>;
 }
 
 export interface TableInfo {

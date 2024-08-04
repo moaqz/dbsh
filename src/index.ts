@@ -52,7 +52,7 @@ const main = defineCommand({
       async run({ args }) {
         let tableName: string | undefined = args.table;
         if (!tableName) {
-          const tables = _adapter.getTables();
+          const tables = await _adapter.getTables();
 
           if (!tables.length) {
             process.exit(0);
@@ -65,7 +65,7 @@ const main = defineCommand({
           });
         }
 
-        const tableInfo = _adapter.getTableInfo(tableName);
+        const tableInfo = await _adapter.getTableInfo(tableName);
         if (!tableInfo) {
           consola.warn(`Table ${tableName} doesn't exist.`);
           process.exit(0);
@@ -89,8 +89,8 @@ const main = defineCommand({
           description: "The output file",
         },
       },
-      run({ args }) {
-        const schema = _adapter.getSchema().join("\n\n");
+      async run({ args }) {
+        const schema = (await _adapter.getSchema()).join("\n\n");
         const { output } = args;
 
         if (typeof output === "string") {
@@ -119,8 +119,8 @@ const main = defineCommand({
       meta: {
         description: "List all existing tables in the database",
       },
-      run() {
-        const tables = _adapter.getTables();
+      async run() {
+        const tables = await _adapter.getTables();
 
         if (!tables.length) {
           consola.warn(`Database does not contain any table.`);

@@ -1,5 +1,5 @@
 import Database from "better-sqlite3";
-import type { DatabaseAdapter, TableInfo } from "../types";
+import type { DatabaseAdapter } from "../types";
 
 interface TableColumn {
   cid: number;
@@ -22,14 +22,15 @@ export class SQLiteAdapter implements DatabaseAdapter {
       .prepare("SELECT name FROM sqlite_schema WHERE type = 'table'")
       .all();
 
-    return rows.map(row => (row as any).name);
+    const tables = rows.map(row => (row as any).name);
+    return Promise.resolve(tables);
   }
 
-  public getTableInfo(table: string): TableInfo | null {
+  public getTableInfo(table: string) {
     const rows = this._db.pragma(`table_info(${table})`) as TableColumn[];
 
     if (!rows.length) {
-      return null;
+      return Promise.resolve(null);
     }
 
     const cols = rows.map(row => ({
@@ -39,14 +40,15 @@ export class SQLiteAdapter implements DatabaseAdapter {
       type: row.type,
     }));
 
-    return { name: table, cols };
+    return Promise.resolve({ name: table, cols });
   }
 
-  public getSchema(): string[] {
+  public getSchema() {
     const rows = this._db
       .prepare("SELECT sql FROM sqlite_schema WHERE sql IS NOT NULL ORDER BY tbl_name")
       .all();
 
-    return rows.map(row => `${(row as any).sql};`);
+    const schema = rows.map(row => `${(row as any).sql};`);
+    return Promise.resolve(schema);
   }
 }
