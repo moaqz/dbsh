@@ -1,3 +1,5 @@
+![dbsh](https://github.com/user-attachments/assets/a24fe451-546a-4e33-be56-2e2a8a511893)
+
 ## 🪐 Features
 
 ✅ Display detailed information about a specific table.
