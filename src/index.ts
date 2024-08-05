@@ -1,11 +1,14 @@
 import process from "node:process";
 import fs from "node:fs";
 import path from "node:path";
+
 import { defineCommand, runMain } from "citty";
 import { consola } from "consola";
+
 import { SQLiteAdapter } from "./adapters/sqlite";
 import type { DatabaseAdapter } from "./types";
 import { padTitleWithDots, padWithDots } from "./printer";
+import { PostgresAdapter } from "./adapters/postgres";
 
 let _adapter: DatabaseAdapter;
 
@@ -20,7 +23,7 @@ const main = defineCommand({
       type: "string",
       required: true,
       default: "sqlite",
-      description: "The database driver (e.g. 'sqlite', 'postgres', 'libsql')",
+      description: "The database driver (e.g. 'sqlite', 'postgres')",
     },
     dsn: {
       type: "string",
@@ -32,6 +35,9 @@ const main = defineCommand({
     switch (args.driver) {
       case "sqlite":
         _adapter = new SQLiteAdapter(args.dsn);
+        break;
+      case "postgres":
+        _adapter = new PostgresAdapter(args.dsn);
         break;
       default:
         throw new Error("Driver not implemented yet.");
