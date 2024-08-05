@@ -18,6 +18,21 @@ I wanted something simpler and easy to extend, so I decided to create my own too
 
 The project is inspired by `artisan` (from Laravel) and `wrangler` (from Cloudflare).
 
+## 🛠️ Usage
+
+For one time use of the command, run the following command:
+
+```bash
+npx dbsh
+```
+
+To install the command globally, run the following command:
+
+```bash
+npm install -g dbsh
+dbsh
+```
+
 ## 🔭 Roadmap
 
 Here's what you can expect in future releases:
