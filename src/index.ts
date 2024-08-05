@@ -28,7 +28,7 @@ const main = defineCommand({
       description: "The database connection string",
     },
   },
-  setup({ args }) {
+  async setup({ args }) {
     switch (args.driver) {
       case "sqlite":
         _adapter = new SQLiteAdapter(args.dsn);
@@ -36,6 +36,11 @@ const main = defineCommand({
       default:
         throw new Error("Driver not implemented yet.");
     }
+
+    await _adapter.connect();
+  },
+  async cleanup() {
+    await _adapter.close();
   },
   subCommands: {
     table: {

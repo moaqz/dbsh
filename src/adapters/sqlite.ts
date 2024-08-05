@@ -17,6 +17,14 @@ export class SQLiteAdapter implements DatabaseAdapter {
     this._db = new Database(dsn);
   }
 
+  public connect() {
+    return Promise.resolve();
+  }
+
+  public async close() {
+    this._db.close();
+  }
+
   public getTables() {
     const rows = this._db
       .prepare("SELECT name FROM sqlite_schema WHERE type = 'table'")
