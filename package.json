@@ -1,19 +1,26 @@
 {
   "name": "dbsh",
   "type": "module",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "packageManager": "pnpm@9.6.0",
   "description": "Tiny database client for the terminal",
   "author": "moaqz",
+  "license": "MIT",
   "homepage": "https://github.com/moaqz/dbsh#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/moaqz/dbsh.git"
   },
+  "bin": "./dist/index.js",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "dev": "tsx src/index.ts"
+    "dev": "tsx src/index.ts",
+    "build": "pkgroll --clean-dist --minify",
+    "release": "pnpm build && pnpm publish"
   },
   "dependencies": {
     "better-sqlite3": "^11.1.2",
@@ -27,6 +34,7 @@
     "@types/better-sqlite3": "^7.6.11",
     "@types/pg": "^8.11.6",
     "eslint": "9.5.0",
+    "pkgroll": "^2.4.2",
     "tsx": "^4.16.5",
     "typescript": "^5.5.4"
   }
