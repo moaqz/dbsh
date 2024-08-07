@@ -15,7 +15,7 @@ let _adapter: DatabaseAdapter;
 const main = defineCommand({
   meta: {
     name: "dbsh",
-    version: "0.0.0",
+    version: "0.1.0",
     description: "Tiny database client for the terminal",
   },
   args: {
@@ -27,17 +27,45 @@ const main = defineCommand({
     },
     dsn: {
       type: "string",
-      required: true,
+      required: false,
       description: "The database connection string",
     },
   },
   async setup({ args }) {
+    let _dsn = args.dsn;
+
+    if (!_dsn) {
+      const ok = await consola.prompt(
+        "No database connection was provided. Would you like to load it from the .env file?",
+        {
+          required: true,
+          type: "confirm",
+        },
+      );
+
+      if (!ok) {
+        process.exit(0);
+      }
+
+      const dotenv = await import("dotenv");
+      dotenv.config();
+
+      _dsn = process.env.DATABASE_URL || process.env.DB_URL || process.env.DBSH_URL || "";
+
+      if (!_dsn) {
+        consola.error(
+          "No database connection found in the .env file. Please ensure `DATABASE_URL`, `DB_URL`, or `DBSH_URL` is set.",
+        );
+        process.exit(1);
+      }
+    }
+
     switch (args.driver) {
       case "sqlite":
-        _adapter = new SQLiteAdapter(args.dsn);
+        _adapter = new SQLiteAdapter(_dsn);
         break;
       case "postgres":
-        _adapter = new PostgresAdapter(args.dsn);
+        _adapter = new PostgresAdapter(_dsn);
         break;
       default:
         throw new Error("Driver not implemented yet.");
