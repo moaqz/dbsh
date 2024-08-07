@@ -8,6 +8,8 @@
 
 ✅ List all tables present in the database.
 
+✅ Automatically load database connection URL from `.env` file.
+
 more coming soon...
 
 ## ✨ Motivation
@@ -38,7 +40,7 @@ dbsh
 Here's what you can expect in future releases:
 
 - Support for more databases.
-- An option to read the database connection URL from a configuration file, like `.env`.
+- An option to read the database connection URL from a configuration file, like `.env`. **(released in v0.2.0)**
 - Include additional information such as indexes and foreign key definitions in the `table` command.
 
 ## 📃 License
