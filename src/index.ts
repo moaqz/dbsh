@@ -7,7 +7,7 @@ import { consola } from "consola";
 
 import { SQLiteAdapter } from "./adapters/sqlite";
 import type { DatabaseAdapter } from "./types";
-import { padTitleWithDots, padWithDots } from "./printer";
+import { getPackageVersion, padTitleWithDots, padWithDots } from "./utils";
 import { PostgresAdapter } from "./adapters/postgres";
 
 let _adapter: DatabaseAdapter;
@@ -15,8 +15,8 @@ let _adapter: DatabaseAdapter;
 const main = defineCommand({
   meta: {
     name: "dbsh",
-    version: "0.1.0",
-    description: "Tiny database client for the terminal",
+    version: `${getPackageVersion()}`,
+    description: "Tiny database management CLI",
   },
   args: {
     driver: {
